@@ -1,59 +1,38 @@
-import random, sys
+import random
+import sys
 
 print("Let's Play ROCK PAPER SCISSORS GAME!")
 
-wins = 0
-losses = 0
-ties = 0
+wins = losses = ties = 0
+
+move_names = {'R': 'ROCK', 'P': 'PAPER', 'S': 'SCISSORS'}
+valid_moves = ['R', 'P', 'S']
 
 while True:
-    print("Current streak: %s Wins, %s Losses, %s Ties" % (wins, losses, ties))
-    while True:
-        print("Type 'Q' to quit \n'R' for ROCK, 'P' for PAPER, 'S' for SCISSORS")
-        playermove = input().upper()
-        if playermove == "Q":
-            sys.exit()
-        if playermove == "R" or playermove == "P" or playermove == "S":
-            break
+    print(f"\nCurrent streak: {wins} Wins, {losses} Losses, {ties} Ties")
+    playermove = input("Type 'Q' to quit | 'R' for ROCK | 'P' for PAPER | 'S' for SCISSORS: ").strip().upper()
 
-    if playermove == "R":
-        print("ROCK versus...")
-    if playermove == "P":
-        print("PAPER versus...")
-    if playermove == "S":
-        print("SCISSORS versus...")
+    if playermove == 'Q':
+        print("Thanks for playing! Final Score:")
+        print(f"{wins} Wins, {losses} Losses, {ties} Ties")
+        sys.exit()
+    if playermove not in valid_moves:
+        print("Invalid input. Please choose R, P, or S.")
+        continue
 
-    randomNum = random.randint(1, 3)
-    if randomNum == 1:
-        compMove = "R"
-        print("ROCK")
-    if randomNum == 2:
-        compMove = "P"
-        print("PAPER")
-    if randomNum == 3:
-        compMove = "S"
-        print("SCISSORS")
+    print(f"{move_names[playermove]} versus...")
+
+    compMove = random.choice(valid_moves)
+    print(move_names[compMove])
 
     if playermove == compMove:
         print("It's a tie!")
         ties += 1
-    elif playermove == "R" and compMove == "P":
-        print("It's a loss!")
-        losses += 1
-    elif playermove == "R" and compMove == "S":
-        print("It's a win!")
-        wins += 1
-    elif playermove == "P" and compMove == "S":
-        print("It's a loss!")
-        losses += 1
-    elif playermove == "P" and compMove == "R":
-        print("It's a win!")
-        wins += 1
-    elif playermove == "S" and compMove == "R":
-        print("It's a loss!")
-        losses += 1
-    elif playermove == "S" and compMove == "P":
+    elif (playermove == 'R' and compMove == 'S') or \
+         (playermove == 'P' and compMove == 'R') or \
+         (playermove == 'S' and compMove == 'P'):
         print("It's a win!")
         wins += 1
     else:
-        print("Thanks for trying my game")
+        print("It's a loss!")
+        losses += 1
